@@ -29,11 +29,11 @@
           </div>
           <!-- Navbar Right Side -->
           <div class="nav navbar-nav navbar-right">
-            {% if current_user.is_authenticated %}
+            {% if current_user.is_authenticated %} <!-- Users must be logged in to see this -->
               <a class="nav-item nav-link" href="{{ url_for('posts.new_post') }}">New Post</a>
               <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
               <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
-            {% else %}
+            {% else %} <!-- Only users without an account can see this -->
               <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Register</a>
               <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login</a>
             {% endif %}

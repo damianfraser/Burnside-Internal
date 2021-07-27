@@ -7,6 +7,7 @@ from flaskblog.posts.forms import PostForm
 
 posts = Blueprint('posts', __name__)
 
+#Making a post
 @posts.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
@@ -19,11 +20,13 @@ def new_post():
         return redirect(url_for('main.home'))
     return render_template('create_post.html', title='New Post', form=form, legend='New Post')
 
+#Looking at a post
 @posts.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', title=post.title, post=post)
 
+#Editing a post (Must be logged in to edit post and can only be your own post)
 @posts.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
@@ -42,6 +45,7 @@ def update_post(post_id):
         form.content.data = post.content
     return render_template('create_post.html', title='Update Post', form=form, legend='Update Post')
 
+#Deleting a post (Must be logged in to delete post and can only be your own post)
 @posts.route("/post/<int:post_id>/delete", methods=['POST'])
 @login_required
 def delete_post(post_id):

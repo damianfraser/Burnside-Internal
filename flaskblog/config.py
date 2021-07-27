@@ -1,4 +1,4 @@
-
+#Forgot Password Email
 class Config:
     SECRET_KEY = 'vwj745cwv8p4arl9'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'
