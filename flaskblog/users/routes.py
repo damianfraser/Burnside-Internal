@@ -8,6 +8,7 @@ from flaskblog.users.utils import save_picture, send_reset_email
 
 users = Blueprint('users', __name__)
 
+#Register
 @users.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -22,6 +23,7 @@ def register():
         return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
 
+#Login
 @users.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -37,11 +39,13 @@ def login():
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
+#Logout
 @users.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for('main.home'))
 
+#Update Account
 @users.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
@@ -61,6 +65,7 @@ def account():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html',title='Account', image_file=image_file, form=form)
 
+#Making the pages
 @users.route("/user/<string:username>")
 def user_posts(username):
     page = request.args.get('page', 1, type=int)
@@ -68,6 +73,7 @@ def user_posts(username):
     posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     return render_template('user_posts.html', posts=posts, user=user)
 
+#Forgot password
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
@@ -80,6 +86,7 @@ def reset_request():
         return redirect(url_for('users.login'))
     return render_template('reset_request.html', title='Reset Password', form=form)
 
+#Reset the password
 @users.route("/reset_password/<token>", methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:

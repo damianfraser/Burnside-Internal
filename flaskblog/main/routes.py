@@ -2,7 +2,7 @@ from flask import render_template, request, Blueprint
 from flaskblog.models import Post
 
 main = Blueprint('main', __name__)
-
+#Home Page
 @main.route("/")
 @main.route("/home")
 def home():
@@ -11,6 +11,3 @@ def home():
     return render_template('home.html', posts=posts)
 
 
-@main.route("/about")
-def about():
-    return render_template('about.html')
