@@ -42,13 +42,14 @@ class UpdateAccountForm(FlaskForm):
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png','gif'])])
     submit = SubmitField('Update')
 
+#Checking if the username is taken
     def validate_username(self, username):
         if username.data != current_user.username:
             user = User.query.filter_by(username=username.data).first()
             if user:
                 raise ValidationError('That username is taken. Please chose a different one.')
 
-
+#Checking if the email is taken
     def validate_email(self, email):
         if email.data != current_user.email:
             user = User.query.filter_by(email=email.data).first()
@@ -59,6 +60,7 @@ class UpdateAccountForm(FlaskForm):
 class RequestResetForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')
+    #Checking if the Email is in the database and if not you will be sent an error
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is None:
